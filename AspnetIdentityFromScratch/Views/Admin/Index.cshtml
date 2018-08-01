@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    hr.hr0 {
+        border: none; 
+        background-color: cornflowerblue; 
+        color: cornflowerblue; 
+        height: 1px; 
+    }
+    li.li0 {
+        display: inline; 
+        margin-right: 5px; 
+    }
+</style>
+
+<h2>Пользователи</h2>
+
+<div>
+    @foreach (var user in ViewBag.Users)
+    {
+        <ul>
+            <li class="li0">@user.UserName</li>
+            @foreach (var role in user.Roles)
+            {
+                <li class="li0">@role</li>
+            }
+        </ul>
+    }
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.ActionLink("Регистрация нового пользователя", "Register", "Account",null, new {@class= "btn btn-default" })
+    </div>
+</div>
+
+
