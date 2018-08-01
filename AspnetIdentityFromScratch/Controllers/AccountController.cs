@@ -23,6 +23,7 @@ namespace AspnetIdentityFromScratch.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Register()
         {
+           
             ViewBag.Roles = Roles;
             return View();
         }

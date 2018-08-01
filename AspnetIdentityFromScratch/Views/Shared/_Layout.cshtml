@@ -30,7 +30,10 @@
                         <li>
                             <a>Хай, @User.Identity.Name!</a>
                         </li>
-                        <li>@Html.ActionLink("Админка", "Index", "Admin")</li>
+                        if (User.Identity.Name == "admin")
+                        {
+                            <li>@Html.ActionLink("Админка", "Index", "Admin")</li>
+                        }
                         <li>@Html.ActionLink("Выйти", "Logoff", "Account")</li>
                     }
                     else

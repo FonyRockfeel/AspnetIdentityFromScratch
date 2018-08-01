@@ -8,7 +8,7 @@
         border: none; 
         background-color: cornflowerblue; 
         color: cornflowerblue; 
-        height: 1px; 
+        height: 1px;
     }
     li.li0 {
         display: inline; 
@@ -18,7 +18,7 @@
 
 <h2>Пользователи</h2>
 
-<div>
+<div class="form-group">
     @foreach (var user in ViewBag.Users)
     {
         <ul>
@@ -27,6 +27,7 @@
             {
                 <li class="li0">@role</li>
             }
+            <hr class="hr0" align="left"/>
         </ul>
     }
 </div>

@@ -6,8 +6,7 @@
 
 <h2>Регистрация нового пользователя</h2>
 
-@Request.IsAuthenticated
-@User.Identity.Name
+
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new{@class="form-horizontal", role="role"}))
 {
