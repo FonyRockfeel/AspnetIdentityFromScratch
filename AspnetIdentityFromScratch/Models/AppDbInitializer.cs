@@ -36,6 +36,25 @@ namespace AspnetIdentityFromScratch.Models
             {
                 userManager.AddToRole(admin.Id, roleAdmin.Name);
             }
+            //todo init
+            for (int i = 0; i < 60; i++)
+            {
+                context.SupportRequests.Add(new SupportRequest
+                {
+                    ClientName = "client" + i,
+                    Executor = "Exec" + i,
+                    Operator = "Operator" + i,
+                    ExecutorComment = "sdfs",
+                    State = "Зарегистрирован",
+                    RqText = "sdf",
+                    Time = DateTime.Now,
+                    Category = "Общие вопросы",
+                    Phone = ""
+                });
+            }
+            context.RequestCategories.Add(new RqCategory() {CategoryName = "Общие вопросы"});
+            context.RequestCategories.Add(new RqCategory() {CategoryName = "Технические проблемы"});
+            
             base.Seed(context);
         }
     }

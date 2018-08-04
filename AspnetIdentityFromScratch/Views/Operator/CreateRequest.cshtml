@@ -1,0 +1,54 @@
+﻿@model AspnetIdentityFromScratch.ViewModels.CreateRequestVmodel
+@{
+    ViewBag.Title = "Добавление обращения";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Добавление обращения</h2>
+
+@using (Html.BeginForm("CreateRequest", "Operator", FormMethod.Post, new{@class="form-horizontal", role="role"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-10">
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ClientName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ClientName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Category, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+               @Html.DropDownList("Category", Model.Categories, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Text, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.Text, new {@id="textarea", @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Добавить" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("textarea").resizable();
+</script>
+
