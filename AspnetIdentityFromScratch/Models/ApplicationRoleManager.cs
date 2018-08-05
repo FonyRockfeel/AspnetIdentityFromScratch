@@ -9,14 +9,14 @@ using Microsoft.Owin;
 
 namespace AspnetIdentityFromScratch.Models
 {
-    public class ApplicationRoleManager: RoleManager<IdentityRole>
+    public class ApplicationRoleManager:RoleManager<IdentityRole>
     {
         public ApplicationRoleManager(IRoleStore<IdentityRole, string> store) : base(store)
         {
         }
 
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options,
-            OwinContext context)
+            IOwinContext context)
         {
             return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationContext>()));
         }

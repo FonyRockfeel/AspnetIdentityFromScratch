@@ -15,10 +15,19 @@ namespace AspnetIdentityFromScratch.Models
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
-            OwinContext context)
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            return new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationContext>()));
+            return new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationContext>()))
+            {
+                PasswordValidator = new PasswordValidator
+                {
+                    RequiredLength = 3,
+                    RequireNonLetterOrDigit = false,
+                    RequireDigit = false,
+                    RequireLowercase = false,
+                    RequireUppercase = false,
+                }
+        };
         }
     }
 }
