@@ -20,7 +20,7 @@ namespace AspnetIdentityFromScratch.Controllers
 
         private List<string> Roles=> RoleManager.Roles.Select(r => r.Name).ToList();
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public ActionResult Register()
         {
            
@@ -77,11 +77,20 @@ namespace AspnetIdentityFromScratch.Controllers
                 }
                 else
                 {
-                    var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
+                    var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, true, shouldLockout: false);
                     if (result == SignInStatus.Success)
                     {
                         if (String.IsNullOrEmpty(retUrl))
-                            return RedirectToAction("Index", "Home");
+                        {
+                            var ur = UserManager.GetRoles(user.Id);
+                            if (ur.Contains("admin"))
+                                return RedirectToAction("Index", "Admin");
+                            if (ur.Contains("operator"))
+                                return RedirectToAction("Index", "Operator");
+                            if (ur.Contains("executor"))
+                                return RedirectToAction("Index", "Executor");
+                        }
+
                         return Redirect(retUrl);
                     }
                    

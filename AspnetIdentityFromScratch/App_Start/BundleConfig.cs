@@ -9,7 +9,8 @@ namespace AspnetIdentityFromScratch
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery-ui-1.12.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -24,7 +25,15 @@ namespace AspnetIdentityFromScratch
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                "~/Content/themes/smoothness/jquery-ui-1.8.23.custom.css",
+                "~/Content/themes/smoothness/jquery-ui.theme.css"));
+
+            bundles.Add(new StyleBundle("~/Content/jqGrid").Include("~/Content/jquery.jqGrid/ui.jqgrid.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqGrid").Include("~/Scripts/jquery.jqGrid.min.js",
+                "~/Scripts/i18n/grid.locale-ru.js"));
+
         }
     }
 }

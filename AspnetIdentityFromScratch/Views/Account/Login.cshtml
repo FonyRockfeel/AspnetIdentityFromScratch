@@ -1,10 +1,10 @@
 ﻿@model AspnetIdentityFromScratch.Models.LoginViewModel
 @{
-    ViewBag.Title = "Зайти в учетную запись";
+    ViewBag.Title = "Войти в учетную запись";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Зайти в учетную запись</h2>
+<h2>Войти в учетную запись</h2>
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "role" }))
 {
     @Html.AntiForgeryToken()
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Зайти" />
+                <input type="submit" class="btn btn-default" value="Войти" />
             </div>
         </div>
     </div>

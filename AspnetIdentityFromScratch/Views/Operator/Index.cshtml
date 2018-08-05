@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewBag.Title = "Обращения";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/jqGrid")
+@Scripts.Render("~/bundles/jqGrid")
+
+
+<h2>Обращения</h2>
+<div id="gridContainer">
+    <table id="jqg"></table>
+    <div id="pager"></div>
+</div>
+<div class="col-md-10 row">
+    @Html.ActionLink("Зарегистрировать обращение", "CreateRequest", "Operator", null, new { @class = "btn btn-default" })
+</div>
+
+<script>
+    $(function () {
+            $("#jqg").jqGrid
+            ({
+                url: "/Operator/GetData",
+                datatype: 'json',
+                mtype: 'Get',
+                //table header name
+                colNames: [
+                    'Id', 'Клиент', 'Телефон', 'Категория', 'Время',  'Статус', 'Исполнитель'
+                ],
+                colModel: [
+                    {
+                        name: 'Id',
+                        editable: false,
+                        editrules: { required: true },
+                        hidden: true,
+                        index: 'Id',
+                        width: 100,
+                        stype: 'text',
+                        sortable: true,
+                        searchoptions: { sopt: ['eq', 'ne', 'cn'] }
+                    },
+                    {
+                        name: 'ClientName',
+                        editable: true,
+                        editrules: { required: true },
+                        index: 'ClientName',
+                        width: 100,
+                        stype: 'text',
+                        sortable: true,
+                        searchoptions: { sopt: ['eq', 'ne', 'cn'] }
+                    },
+                    {
+                        name: 'Phone',
+                        editable: true,
+                        editrules: { required: true },
+                        index: 'Phone',
+                        width: 70,
+                        stype: 'text',
+                        sortable: false,
+                        searchoptions: { sopt: ['eq', 'ne', 'cn'] }
+                    },
+                    {
+                        name: 'Category',
+                        editable: false,
+                        editrules: { required: true },
+                        index: 'Category',
+                        width: 100,
+                        stype: 'text',
+                        sortable: true,
+                        searchoptions: { sopt: ['eq', 'ne', 'cn'] }
+                    },
+                    {
+                        name: 'Time',
+                        index: 'Time',
+                        width: 100,
+                        sortable: true,
+                        formatter: 'date',
+                        search: false,
+                        formatoptions: {
+                            srcformat: "ISO8601Long",
+                            newformat: 'UniversalSortableDateTime'
+                        }
+                    },
+                   
+                    {
+                        name: 'State',
+                        editable: true,
+                        index: 'State',
+                        width: 50,
+                        sortable: true,
+                        edittype: 'select',
+                        editoptions: { value: "1:One;2:Two" },
+                        searchoptions: { sopt: ['eq', 'ne', 'cn'] }
+                    },
+                    {
+                        name: 'Executor',
+                        index: 'Executor',
+                        width: 100,
+                        stype: 'text',
+                        sortable: false,
+                        searchoptions: { sopt: ['eq', 'ne', 'cn'] }
+                    }
+                ],
+                height: 'auto',
+                rowList: [10, 20, 30, 40],
+                pager: "#pager",
+                loadonce: false,
+                sortname: 'Time',
+                sortorder: "desc",
+                viewrecords: true,
+                caption: "Запросы",
+                    emptyrecords: 'No records',
+                subGrid: true,
+                subGridModel : [ 
+                    {
+                        name  : ['Текст', 'Комментарий исполнителя'],
+                        width : [200, 200],
+                        align : ['left','left']
+                    }
+                ],
+                jsonReader:
+                {
+                    root: "rows",
+                    page: "page",
+                    total: "total",
+                    records: "records",
+                    repeatitems: false,
+                    Id: "0"
+                },
+                    autowidth: true,
+                subGridRowExpanded: function(rowid, primKey) {
+                       
+                    var data = $('#jqg').jqGrid('getCell', primKey, 'Id');
+                    $.ajax({
+                        url: "/Operator/GetDetails/"+data,
+                        type: "GET",
+                        success: function (dataFromServer) {
+                            $("#" + rowid).append('<p><h5>Текст обращения:</h5><span>' + dataFromServer[0] + '</span></p>' +
+                                '<p><h5>Комментарий исполнителя:</h5><span>' + dataFromServer[1] + '</span></p>');
+                        }
+                    });
+                }
+            }).navGrid('#pager',
+                {
+                    add: false,
+                    edit:false,
+                    search: true,
+                    refresh: true,
+                    del: false,
+                    closeAfterSearch: true,
+                    searchtext: "Поиск"
+                }
+                );
+    });
+    $.jgrid.defaults.styleUI = 'Bootstrap';
+</script>
+

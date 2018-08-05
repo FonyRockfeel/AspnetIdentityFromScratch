@@ -15,14 +15,14 @@ namespace AspnetIdentityFromScratch.Controllers
 {
     public class OperatorController : Controller
     {
-        
-        
         // GET: Operator
+        [Authorize(Roles = "operator")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "operator")]
         public JsonResult GetData(string sidx, string sord, int page, int rows, string searchString, string searchField,
             string searchOper)
         {
@@ -34,7 +34,6 @@ namespace AspnetIdentityFromScratch.Controllers
                 a => new
                 {
                     a.ClientName,
-                    a.Operator,
                     a.Executor,
                     a.ExecutorComment,
                     a.State,
@@ -48,7 +47,7 @@ namespace AspnetIdentityFromScratch.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
 
 
-            //todo change sort
+            //todo change sort logics
             var s = $"it.{sidx} {sord}";
             results = results.OrderBy(s);
             results = results.Skip(pageIndex * pageSize).Take(pageSize);
@@ -75,6 +74,7 @@ namespace AspnetIdentityFromScratch.Controllers
             return Json(jsondata, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "operator")]
         public ActionResult CreateRequest()
         {
             var crRqModel = new CreateRequestVmodel();
@@ -88,6 +88,7 @@ namespace AspnetIdentityFromScratch.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "operator")]
         public async Task<ActionResult> CreateRequest(CreateRequestVmodel model)
         {
              var items = HttpContext.GetOwinContext().Get<ApplicationContext>().RequestCategories
@@ -96,19 +97,17 @@ namespace AspnetIdentityFromScratch.Controllers
             model.Categories = new SelectList(items, "Value", "Text");
             if (ModelState.IsValid)
             {
-                // var items = HttpContext.GetOwinContext().Get<ApplicationContext>().RequestCategories
-                //    .Select(c => new SelectListItem() { Value = c.CategoryName, Text = c.CategoryName }).ToList();
-
-                //model.Categories = new SelectList(items, "Value", "Text");
-
                 var db = HttpContext.GetOwinContext().Get<ApplicationContext>();
-                SupportRequest sr = new SupportRequest();
-                sr.Category = model.Category;
-                sr.Phone = model.Phone;
-                sr.Operator = HttpContext.User.Identity.Name;
-                sr.RqText = model.Text;
-                sr.State = "Зарегистрирован";
-                sr.Time = DateTime.Now;
+                SupportRequest sr = new SupportRequest
+                {
+                    ClientName = model.ClientName,
+                    Category = model.Category,
+                    Phone = model.Phone,
+                    Operator = HttpContext.User.Identity.Name,
+                    RqText = model.Text,
+                    State = "Зарегистрирован",
+                    Time = DateTime.Now
+                };
                 bool _success = true;
                 try
                 {
@@ -127,6 +126,16 @@ namespace AspnetIdentityFromScratch.Controllers
                 }
             }
             return View(model);
+        }
+
+        [Authorize(Roles = "operator")]
+        public JsonResult GetDetails(Guid? id)
+        {
+            if (id == null || id == default(Guid))
+                return null;
+            var db = HttpContext.GetOwinContext().Get<ApplicationContext>().SupportRequests;
+            var item = db.First(s => s.Id == id);
+            return Json(new string[] { item.RqText, item.ExecutorComment }, JsonRequestBehavior.AllowGet);
         }
     }
 }
