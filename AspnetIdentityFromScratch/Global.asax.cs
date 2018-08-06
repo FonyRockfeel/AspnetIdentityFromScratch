@@ -14,7 +14,9 @@ namespace AspnetIdentityFromScratch
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new AppDbInitializer());
+            //Database.SetInitializer(new AppDbInitializer());
+            var init = new AppDbInitializer();
+            init.InitializeDatabase(new ApplicationContext());
             //var db = new ApplicationContext();
             //db.Database.Initialize(true);
             AreaRegistration.RegisterAllAreas();

@@ -36,49 +36,42 @@ namespace AspnetIdentityFromScratch.Models
 
             //#region Init users
 
-            //var admin = new ApplicationUser()
-            //{
-            //    Email = "overmind@gmail.com",
-            //    UserName = "Overmind"
-            //};
+            var admin = new ApplicationUser()
+            {
+                Email = "overmind@gmail.com",
+                UserName = "Overmind"
+            };
 
-            //var oper = new ApplicationUser()
-            //{
-            //    Email = "morgot@gmail.com",
-            //    UserName = "Morgot"
-            //};
-            //var exec = new ApplicationUser()
-            //{
-            //    Email = "solo@gmail.com",
-            //    UserName = "Solo"
-            //};
-            //var passw = "123";
+            var oper = new ApplicationUser()
+            {
+                Email = "morgot@gmail.com",
+                UserName = "Morgot"
+            };
+            var exec = new ApplicationUser()
+            {
+                Email = "solo@gmail.com",
+                UserName = "Solo"
+            };
+            var passw = "123456";
 
-            //var res = userManager.Create(admin, passw);
-            //if (res.Succeeded)
-            //{
-            //    userManager.AddToRole(admin.Id, roleAdmin.Name);
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("init false");
-            //}
+            var res = userManager.Create(admin, passw);
+            if (res.Succeeded)
+            {
+                userManager.AddToRole(admin.Id, roleAdmin.Name);
+            }
+            
 
-            //res = userManager.Create(oper, passw);
-            //if (res.Succeeded)
-            //{
-            //    userManager.AddToRole(oper.Id, roleOperator.Name);
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("init false");
-            //}
-
-            //res = userManager.Create(exec, passw);
-            //if (res.Succeeded)
-            //{
-            //    userManager.AddToRole(exec.Id, roleExecutor.Name);
-            //}
+            res = userManager.Create(oper, passw);
+            if (res.Succeeded)
+            {
+                userManager.AddToRole(oper.Id, roleOperator.Name);
+            }
+            
+            res = userManager.Create(exec, passw);
+            if (res.Succeeded)
+            {
+                userManager.AddToRole(exec.Id, roleExecutor.Name);
+            }
             //#endregion
 
 
